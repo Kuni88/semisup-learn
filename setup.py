@@ -10,6 +10,7 @@ requirements = [
     "scikit-learn",
     "scipy",
     "numpy",
+    "nlopt",
     "matplotlib"
 ]
 
