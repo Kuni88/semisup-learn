@@ -151,12 +151,12 @@ class CPLELearningModel(BaseEstimator):
         self.lastdls[numpy.mod(self.it, len(self.lastdls))] = dl
         
         if numpy.mod(self.it, self.buffersize) == 0: # or True:
-            improvement = numpy.mean((self.lastdls[(len(self.lastdls)/2):])) - numpy.mean((self.lastdls[:(len(self.lastdls)/2)]))
+            improvement = numpy.mean((self.lastdls[(len(self.lastdls)//2):])) - numpy.mean((self.lastdls[:(len(self.lastdls)//2)]))
             # ttest - test for hypothesis that the likelihoods have not changed (i.e. there has been no improvement, and we are close to convergence) 
-            _, prob = scipy.stats.ttest_ind(self.lastdls[(len(self.lastdls)/2):], self.lastdls[:(len(self.lastdls)/2)])
+            _, prob = scipy.stats.ttest_ind(self.lastdls[(len(self.lastdls)//2):], self.lastdls[:(len(self.lastdls)//2)])
             
             # if improvement is not certain accoring to t-test...
-            noimprovement = prob > 0.1 and numpy.mean(self.lastdls[(len(self.lastdls)/2):]) < numpy.mean(self.lastdls[:(len(self.lastdls)/2)])
+            noimprovement = prob > 0.1 and numpy.mean(self.lastdls[(len(self.lastdls)//2):]) < numpy.mean(self.lastdls[:(len(self.lastdls)//2)])
             if noimprovement:
                 self.noimprovementsince += 1
                 if self.noimprovementsince >= self.maxnoimprovementsince:
@@ -213,7 +213,6 @@ class CPLELearningModel(BaseEstimator):
         
         self.bestsoftlbl = numpy.array(self.bestsoftlbl)
         ll = f(self.bestsoftlbl)
-
         
         unlabeledy = (self.bestsoftlbl<0.5)*1
         uweights = numpy.copy(self.bestsoftlbl) # large prob. for k=0 instances, small prob. for k=1 instances 
