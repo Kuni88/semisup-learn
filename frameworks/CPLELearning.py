@@ -203,7 +203,8 @@ class CPLELearningModel(BaseEstimator):
             opt.set_min_objective(f)
             opt.set_maxeval(self.max_iter)
             self.bestsoftlbl = opt.optimize(lblinit)
-            print(" max_iter exceeded.")
+            if self.verbose >= 1:
+                print(" max_iter exceeded.")
         except Exception as e:
             print(e)
             self.bestsoftlbl = self.bestlbls
